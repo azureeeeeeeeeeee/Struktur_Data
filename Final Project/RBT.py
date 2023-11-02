@@ -17,14 +17,27 @@ class RedBlackTree:
         self.root = self.nil
         self.number_of_nodes = 0
 
-    def search(self, key):
+    def search_en(self, key):
         node = self.root
 
-        while node != self.nil:  # as long as we didn't reach the end of the tree
+        while node != self.nil: 
             if node.key == key.lower():
                 print(node.arti)
                 return True
             elif key.lower() < node.key:
+                node = node.left
+            else:
+                node = node.right
+        return False
+
+    def search_id(self, arti):
+        node = self.root
+
+        while node != self.nil:
+            if node.arti == arti.lower():
+                print(node.key)
+                return True
+            elif arti.lower() < node.arti:
                 node = node.left
             else:
                 node = node.right
@@ -37,7 +50,7 @@ class RedBlackTree:
         node = self.root
         parent = None  # TBD
 
-        while node != self.nil:  # Find the appropriate parent
+        while node != self.nil: 
             parent = node
             if newNode.key < node.key:
                 node = node.left
@@ -45,7 +58,7 @@ class RedBlackTree:
                 node = node.right
         newNode.parent = parent
 
-        if parent is None:  # Inserted node is the first node
+        if parent is None:
             newNode.color = 1
             self.root = newNode
             self.number_of_nodes += 1
@@ -59,10 +72,9 @@ class RedBlackTree:
             self.number_of_nodes += 1
             return
 
-        self.insertFix(newNode)  # Handle cases
+        self.insertFix(newNode)
         self.number_of_nodes += 1
 
-    # This method handles cases of RB-tree insertions
     def insertFix(self, newNode):
         # Loop until we reach the root or parent is black
         while newNode != self.root and newNode.parent.color == 0:
@@ -115,21 +127,21 @@ class RedBlackTree:
                 c     d           c
                 """
         y = node.right
-        node.right = y.left  # connect node to c
-        if y.left != self.nil:  # connect c to node
+        node.right = y.left
+        if y.left != self.nil:
             y.left.parent = node
 
-        y.parent = node.parent  # connect y to node's parent
+        y.parent = node.parent
 
-        if node.parent is None:  # connect node's parent to y
+        if node.parent is None:
             self.root = y
         elif node == node.parent.left:
             node.parent.left = y
         else:
             node.parent.right = y
 
-        y.left = node  # connect y to node
-        node.parent = y  # connect node to y
+        y.left = node
+        node.parent = y
 
     def rightRotate(self, node):
         """
