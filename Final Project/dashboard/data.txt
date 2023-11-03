@@ -1,0 +1,11 @@
+pintu,door
+kucing,cat
+piala,trophy
+ibu,mother
+kunci,key
+guru,teacher
+baterai,battery
+jendela,window
+ayah,father
+dompet,wallet
+kaca,mirror
