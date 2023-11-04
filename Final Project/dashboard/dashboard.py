@@ -6,14 +6,6 @@ import random
 kamus = RedBlackTree()
     
 # Helper Function
-def play_rps(c1: str, c2: str) -> str:
-    if (c1 == 'rock' and c2 =='scissors') or (c1 == 'paper' and c2 =='rock') or (c1 == 'scissors' and c2 =='paper'):
-        return 'You Win'
-    elif (c1 == c2):
-        return 'Draw'
-    else:
-        return 'You Lose'
-
 def load_data(filename='data.txt'):
     data = {}
     try:
