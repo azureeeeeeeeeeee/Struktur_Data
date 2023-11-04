@@ -4,26 +4,16 @@ import random
 
 # Inisiasi kamus sebagai objek dari RedBlackTree()
 kamus = RedBlackTree()
-    
-# Helper Function
-def load_data(filename='data.txt'):
-    try:
-        with open(filename, 'r') as file:
-            for line in file:
-                parts = line.strip().split(',')
-                if len(parts) == 2:
-                    idn, eng = parts[0], parts[1]
-                    kamus.insert(idn, eng)
-    except FileNotFoundError:
-        pass
 
-def save_data(data, filename='data.txt'):
-    with open(filename, 'w') as file:
-        for idn, eng in data.items():
-            file.write(f"{idn},{eng}\n")
-
-# Load data
-data = load_data()
+# Memasukkan beberapa kata    
+kamus.insert('kucing', 'cat')
+kamus.insert('guru', 'teacher')
+kamus.insert('botol', 'bottle')
+kamus.insert('baterai', 'battery')
+kamus.insert('kunci', 'key')
+kamus.insert('baju', 'shirt')
+kamus.insert('ibu', 'mother')
+kamus.insert('ayah', 'father')
 
 
 # Membuat web page dengan menggunakan streamlit
@@ -60,6 +50,12 @@ with tab1:
                 even = [x for x in range(0, num*2, 2)]
                 for i in even:
                     st.write(i)
+        elif kata == 'detective':
+            st.write('conan')
+        elif kata == 'anime':
+            st.image('pict/anime.jpg')
+        elif kata == 'karateka':
+            st.image('pict/karateka.jpg')
         else:
             translation = kamus.search_en(kata)
             st.write(translation)
@@ -94,26 +90,15 @@ with tab2:
                 even = [x for x in range(0, num*2, 2)]
                 for i in even:
                     st.write(i)
+        elif kata == 'detektif':
+            st.write('conan')
+        elif kata == 'anime':
+            st.image('pict/anime.jpg')
+        elif kata == 'karateka':
+            st.image('pict/karateka.jpg')
         else:
             translation = kamus.search_id(kata)
             st.write(translation)
-
-
-
-st.header('Input Kata Baru (ID) & (EN)')
-ind = st.text_input('Masukkan kata (ID)')
-eng = st.text_input('Masukkan Arti (EN)')
-
-btn = st.button('Input')
-if btn:
-    if ind and eng:
-        kamus.insert(ind.lower(), eng.lower())
-        data[ind.lower()] = eng.lower()
-        save_data(data)
-        pesan = f'Berhasil memasukkan {ind} (ID) dan {eng} (EN) ke kamus'
-        st.write(pesan)
-    else:
-        st.write('Belum Memasukkan apa apa')
 
 
 
