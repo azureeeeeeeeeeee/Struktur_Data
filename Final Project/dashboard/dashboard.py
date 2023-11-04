@@ -2,10 +2,19 @@ import streamlit as st
 from RBT import *
 import random
 
+# Inisiasi kamus sebagai objek dari RedBlackTree()
 kamus = RedBlackTree()
+    
+# Helper Function
+def play_rps(c1: str, c2: str) -> str:
+    if (c1 == 'rock' and c2 =='scissors') or (c1 == 'paper' and c2 =='rock') or (c1 == 'scissors' and c2 =='paper'):
+        return 'You Win'
+    elif (c1 == c2):
+        return 'Draw'
+    else:
+        return 'You Lose'
 
-
-def load_data_from_file(filename='data.txt'):
+def load_data(filename='data.txt'):
     data = {}
     try:
         with open(filename, 'r') as file:
@@ -19,14 +28,18 @@ def load_data_from_file(filename='data.txt'):
         pass
     return data
 
-def save_data_to_file(data, filename='data.txt'):
+def save_data(data, filename='data.txt'):
     with open(filename, 'w') as file:
         for idn, eng in data.items():
             file.write(f"{idn},{eng}\n")
 
-data = load_data_from_file()
+# Load data
+data = load_data()
 
+
+# Membuat web page dengan menggunakan streamlit
 st.header('Kamus ENG - IDN')
+
 tab1, tab2 = st.tabs(['EN - ID', 'ID - EN'])
 with tab1:
     col1, col2 = st.columns(2)
@@ -37,9 +50,27 @@ with tab1:
     with col2:
         st.write('Arti (ID) : ')
         if kata == 'random':
-            st.write([random.randint(1, 100) for x in range(10)])
-        # elif kata == 'anime':
-        #     st.image('pict/anime.jpg')
+            arr = [random.randint(1,100) for x in range(10)]
+            for i in arr:
+                st.write(i)
+        elif kata.startswith('odd'):
+            if len(kata.split()) == 1:
+                st.write('ganjil')
+            else:
+                mode, num = kata.strip().split()
+                num = int(num)
+                odd = [x for x in range(1, num*2, 2)]
+                for i in odd:
+                    st.write(i)
+        elif kata.startswith('even'):
+            if len(kata.split()) == 1:
+                st.write('genap')
+            else:
+                mode, num = kata.strip().split()
+                num = int(num)
+                even = [x for x in range(0, num*2, 2)]
+                for i in even:
+                    st.write(i)
         else:
             translation = kamus.search_en(kata)
             st.write(translation)
@@ -52,10 +83,28 @@ with tab2:
 
     with col2:
         st.write('Arti (EN) : ')
-        if kata == 'random':
-            st.write([random.randint(1, 100) for x in range(10)])
-        # elif kata == 'anime':
-        #     st.image('pict/anime.jpg')
+        if kata == 'acak':
+            arr = [random.randint(1,100) for x in range(10)]
+            for i in arr:
+                st.write(i)
+        elif kata.startswith('ganjil'):
+            if len(kata.split()) == 1:
+                st.write('odd')
+            else:
+                mode, num = kata.strip().split()
+                num = int(num)
+                odd = [x for x in range(1, num*2, 2)]
+                for i in odd:
+                    st.write(i)
+        elif kata.startswith('genap'):
+            if len(kata.split()) == 1:
+                st.write('even')
+            else:
+                mode, num = kata.strip().split()
+                num = int(num)
+                even = [x for x in range(0, num*2, 2)]
+                for i in even:
+                    st.write(i)
         else:
             translation = kamus.search_id(kata)
             st.write(translation)
@@ -71,8 +120,8 @@ if btn:
     if ind and eng:
         kamus.insert(ind.lower(), eng.lower())
         data[ind.lower()] = eng.lower()
-        save_data_to_file(data)
-        pesan = f'Berhasil memasukkan {ind} (ID) dan {eng} (EN)'
+        save_data(data)
+        pesan = f'Berhasil memasukkan {ind} (ID) dan {eng} (EN) ke kamus'
         st.write(pesan)
     else:
         st.write('Belum Memasukkan apa apa')
