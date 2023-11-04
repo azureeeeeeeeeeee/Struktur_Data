@@ -7,18 +7,15 @@ kamus = RedBlackTree()
     
 # Helper Function
 def load_data(filename='data.txt'):
-    data = {}
     try:
         with open(filename, 'r') as file:
             for line in file:
                 parts = line.strip().split(',')
                 if len(parts) == 2:
                     idn, eng = parts[0], parts[1]
-                    data[idn] = eng
                     kamus.insert(idn, eng)
     except FileNotFoundError:
         pass
-    return data
 
 def save_data(data, filename='data.txt'):
     with open(filename, 'w') as file:
