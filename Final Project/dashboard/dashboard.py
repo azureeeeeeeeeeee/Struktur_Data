@@ -30,9 +30,7 @@ with tab1:
         with col2:
             st.write('Arti (ID) : ')
             if kata == 'random':
-                arr = [random.randint(1,100) for x in range(10)]
-                for i in arr:
-                    st.write(i)
+                st.write('acak')
             elif kata.startswith('odd'):
                 st.write('ganjil')
             elif kata.startswith('even'):
@@ -66,8 +64,13 @@ with tab1:
             else:
                 st.write('Description not found')
 
+        elif kata == 'random':
+            arr = [random.randint(1,100) for x in range(10)]
+            for i in arr:
+                st.write(i)
+
         else:
-            desk = kamus.search_descid(kata)
+            desk = kamus.search_descen(kata)
             if desk != 'Not Found':
                 st.write(desk)
             else:
@@ -84,9 +87,7 @@ with tab2:
         with col2:
             st.write('Arti (EN) : ')
             if kata == 'acak':
-                arr = [random.randint(1,100) for x in range(10)]
-                for i in arr:
-                    st.write(i)
+                st.write('random')
             elif kata.startswith('ganjil'):
                 st.write('odd')
             elif kata.startswith('genap'):
@@ -119,6 +120,12 @@ with tab2:
                     st.write(i)
             else:
                 st.write('Deskripsi tidak ditemukan')
+
+        elif kata == 'acak':
+            arr = [random.randint(1,100) for x in range(10)]
+            for i in arr:
+                st.write(i)
+            
         else:
             desk = kamus.search_descid(kata)
             if desk != 'Not Found':
