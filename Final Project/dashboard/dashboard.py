@@ -13,7 +13,7 @@ kamus.insert('baterai', 'battery', 'baterai bagus', 'battery is good')
 kamus.insert('kunci', 'key', 'kunci hebat', 'key is great')
 kamus.insert('baju', 'shirt', 'baju itu bagus', 'that shirt is good')
 kamus.insert('ibu', 'mother', 'ibu itu cewek', 'mother is woman')
-kamus.insert('ayah', 'father', 'angger tidak punya', 'angger no have')
+kamus.insert('ayah', 'father', 'ayah itu laki laki', 'father is a man')
 
 
 # Membuat web page dengan menggunakan streamlit
