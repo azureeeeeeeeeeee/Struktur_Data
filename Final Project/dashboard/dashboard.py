@@ -4,26 +4,16 @@ import random
 
 # Inisiasi kamus sebagai objek dari RedBlackTree()
 kamus = RedBlackTree()
-    
-# Helper Function
-def load_data(filename='data.txt'):
-    try:
-        with open(filename, 'r') as file:
-            for line in file:
-                parts = line.strip().split(',')
-                if len(parts) == 2:
-                    idn, eng = parts[0], parts[1]
-                    kamus.insert(idn, eng)
-    except FileNotFoundError:
-        pass
 
-def save_data(data, filename='data.txt'):
-    with open(filename, 'w') as file:
-        for idn, eng in data.items():
-            file.write(f"{idn},{eng}\n")
-
-# Load data
-data = load_data()
+# Memasukkan beberapa kata    
+kamus.insert('kucing', 'cat', 'kucing adalah hewan', 'cat is animal')
+kamus.insert('guru', 'teacher', 'guru itu baik', 'teacher is good')
+kamus.insert('botol', 'bottle', 'botol adalah barang', 'bottle is item')
+kamus.insert('baterai', 'battery', 'baterai bagus', 'battery is good')
+kamus.insert('kunci', 'key', 'kunci hebat', 'key is great')
+kamus.insert('baju', 'shirt', 'baju itu bagus', 'that shirt is good')
+kamus.insert('ibu', 'mother', 'ibu itu cewek', 'mother is woman')
+kamus.insert('ayah', 'father', 'angger tidak punya', 'angger no have')
 
 
 # Membuat web page dengan menggunakan streamlit
@@ -31,90 +21,110 @@ st.header('Kamus ENG - IDN')
 
 tab1, tab2 = st.tabs(['EN - ID', 'ID - EN'])
 with tab1:
-    col1, col2 = st.columns(2)
-    with col1:
-        kata = st.text_input('Masukkan Kata (EN)')
-        kata = kata.lower()
+    with st.container():
+        col1, col2 = st.columns(2)
+        with col1:
+            kata = st.text_input('Masukkan Kata (EN)')
+            kata = kata.lower()
 
-    with col2:
-        st.write('Arti (ID) : ')
-        if kata == 'random':
-            arr = [random.randint(1,100) for x in range(10)]
-            for i in arr:
-                st.write(i)
-        elif kata.startswith('odd'):
-            if len(kata.split()) == 1:
-                st.write('ganjil')
-            else:
-                mode, num = kata.strip().split()
-                num = int(num)
-                odd = [x for x in range(1, num*2, 2)]
-                for i in odd:
+        with col2:
+            st.write('Arti (ID) : ')
+            if kata == 'random':
+                arr = [random.randint(1,100) for x in range(10)]
+                for i in arr:
                     st.write(i)
-        elif kata.startswith('even'):
-            if len(kata.split()) == 1:
+            elif kata.startswith('odd'):
+                st.write('ganjil')
+            elif kata.startswith('even'):
                 st.write('genap')
             else:
-                mode, num = kata.strip().split()
-                num = int(num)
-                even = [x for x in range(0, num*2, 2)]
-                for i in even:
+                translation = kamus.search_en(kata)
+                st.write(translation)
+
+    with st.expander('Description', expanded=True):
+        if kata.startswith('odd'):
+            arr = kata.strip().split()
+            if len(arr) < 2:
+                st.write('odd is bad')
+            elif len(arr) == 2:
+                _, num = arr[0], int(arr[1])
+                arrodd = [x for x in range(1, num*2, 2)]
+                for i in arrodd:
                     st.write(i)
+            else:
+                st.write('Description not found')
+    
+        elif kata.startswith('even'):
+            arr = kata.strip().split()
+            if len(arr) < 2:
+                st.write('even is good')
+            elif len(arr) == 2:
+                _, num = arr[0], int(arr[1])
+                arrodd = [x for x in range(0, num*2, 2)]
+                for i in arrodd:
+                    st.write(i)
+            else:
+                st.write('Description not found')
+
         else:
-            translation = kamus.search_en(kata)
-            st.write(translation)
+            desk = kamus.search_descid(kata)
+            if desk != 'Not Found':
+                st.write(desk)
+            else:
+                st.write('Description not found')
+
 
 with tab2:
-    col1, col2 = st.columns(2)
-    with col1:
-        kata = st.text_input('Masukkan Kata (ID)')
-        kata = kata.lower()
+    with st.container():
+        col1, col2 = st.columns(2)
+        with col1:
+            kata = st.text_input('Masukkan Kata (ID)')
+            kata = kata.lower()
 
-    with col2:
-        st.write('Arti (EN) : ')
-        if kata == 'acak':
-            arr = [random.randint(1,100) for x in range(10)]
-            for i in arr:
-                st.write(i)
-        elif kata.startswith('ganjil'):
-            if len(kata.split()) == 1:
-                st.write('odd')
-            else:
-                mode, num = kata.strip().split()
-                num = int(num)
-                odd = [x for x in range(1, num*2, 2)]
-                for i in odd:
+        with col2:
+            st.write('Arti (EN) : ')
+            if kata == 'acak':
+                arr = [random.randint(1,100) for x in range(10)]
+                for i in arr:
                     st.write(i)
-        elif kata.startswith('genap'):
-            if len(kata.split()) == 1:
+            elif kata.startswith('ganjil'):
+                st.write('odd')
+            elif kata.startswith('genap'):
                 st.write('even')
             else:
-                mode, num = kata.strip().split()
-                num = int(num)
-                even = [x for x in range(0, num*2, 2)]
-                for i in even:
+                translation = kamus.search_id(kata)
+                st.write(translation)
+
+    with st.expander('Deskripsi', expanded=True):
+        if kata.startswith('ganjil'):
+            arr = kata.strip().split()
+            if len(arr) < 2:
+                st.write('ganjil adalah bagus')
+            elif len(arr) == 2:
+                _, num = arr[0], int(arr[1])
+                arrodd = [x for x in range(1, num*2, 2)]
+                for i in arrodd:
                     st.write(i)
+            else:
+                st.write('Deskripsi tidak ditemukan')
+    
+        elif kata.startswith('genap'):
+            arr = kata.strip().split()
+            if len(arr) < 2:
+                st.write('genap adalah bagus')
+            elif len(arr) == 2:
+                _, num = arr[0], int(arr[1])
+                arrodd = [x for x in range(0, num*2, 2)]
+                for i in arrodd:
+                    st.write(i)
+            else:
+                st.write('Deskripsi tidak ditemukan')
         else:
-            translation = kamus.search_id(kata)
-            st.write(translation)
-
-
-
-st.header('Input Kata Baru (ID) & (EN)')
-ind = st.text_input('Masukkan kata (ID)')
-eng = st.text_input('Masukkan Arti (EN)')
-
-btn = st.button('Input')
-if btn:
-    if ind and eng:
-        kamus.insert(ind.lower(), eng.lower())
-        data[ind.lower()] = eng.lower()
-        save_data(data)
-        pesan = f'Berhasil memasukkan {ind} (ID) dan {eng} (EN) ke kamus'
-        st.write(pesan)
-    else:
-        st.write('Belum Memasukkan apa apa')
-
+            desk = kamus.search_descid(kata)
+            if desk != 'Not Found':
+                st.write(desk)
+            else:
+                st.write('Deskripsi tidak ditemukan')
 
 
 st.header('Print Tree di Terminal')
